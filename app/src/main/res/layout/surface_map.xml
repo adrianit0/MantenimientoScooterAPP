@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/scooter_surface"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mysurfacepanel"
+    android:minHeight="128dp"
+    android:maxHeight="256dp"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    >
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/botonCerrarSurface"
+            style="@style/SmallButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="0dp"
+            android:layout_marginEnd="8dp"
+            android:padding="0dp"
+            android:text="x"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:minWidth="96dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/moto_version_1" />
+            <LinearLayout
+                android:id="@+id/linearSurface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/textoModelo"
+                    style="@style/textoNegrita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1234ABC - Scooter Modelo 1" />
+
+                <TextView
+                    android:id="@+id/textoTipoTarea"
+                    style="@style/textoNegrita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/notificacion_tipo_tarea"
+                    android:drawablePadding="4dp"
+                    android:text="..." />
+
+                <TextView
+                    android:id="@+id/textoDistancia"
+                    style="@style/textoNegrita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/notificacion_actual"
+                    android:drawablePadding="4dp"
+                    android:text="121m" />
+
+                <TextView
+                    android:id="@+id/textoCalle"
+                    style="@style/textoNegrita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/notificacion_mapa"
+                    android:text="Calle Sagasta, 2, 11400, Cádiz"
+                    android:drawablePadding="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/botonReservar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ir al parte de esta incidencia"
+        style="@style/NotificacionButton"/>
+
+
+</LinearLayout>

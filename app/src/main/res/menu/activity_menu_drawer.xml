@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_incidencia"
+            android:icon="@drawable/mainmenu_incidencia"
+            android:title="Incidencias" />
+        <item
+            android:id="@+id/nav_mapa"
+            android:icon="@drawable/mainmenu_bike"
+            android:title="Mapa" />
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/mainmenu_perfil"
+            android:title="Mis datos" />
+    </group>
+
+    <item>
+        <menu>
+            <item
+                android:id="@+id/nav_disconnect"
+                android:icon="@drawable/mainmenu_disconnect"
+                android:title="Desconectar" />
+        </menu>
+    </item>
+
+</menu>

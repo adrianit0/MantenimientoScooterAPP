@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- Colores de la aplicación -->
+    <color name="primaryColorLight">#6cff55</color>
+    <color name="primaryColor">#008304</color>
+    <color name="primaryColorDark">#006e18</color>
+    <color name="fondoMenu">#abe493</color>
+
+    <color name="secundaryColorLight">#504c48</color>
+    <color name="secundaryColor">#292725</color>
+    <color name="secundaryColorDark">#1a1817</color>
+
+    <color name="background">#dfdfdf</color>
+    <color name="surface">#ffffff</color>
+    <color name="error">#106000</color>
+    <color name="disable">#a7a7a7</color>
+
+    <color name="onPrimary">#ffffff</color>
+    <color name="onSecundary">#ffffff</color>
+    <color name="onBackground">#6b6b6b</color>
+    <color name="onSurface">#000000</color>
+    <color name="onDisable">#000000</color>
+
+    <color name="titulo">#000000</color>
+    <color name="link">#11242b</color>
+    <color name="rippleEffect">#74838e</color>
+
+    <!-- Botones -->
+    <color name="buttonNormalGradient1">@color/secundaryColor</color>
+    <color name="buttonNormalGradient2">@color/secundaryColorDark</color>
+    <color name="buttonStroke">@color/secundaryColor</color>
+    <color name="buttonFocused">@color/secundaryColorDark</color>
+    <color name="buttonPressedGradient1">@color/secundaryColorDark</color>
+    <color name="buttonPressedGradient2">#0a0908</color>
+
+    <!-- Botones menu principal -->
+
+
+    <!-- EditText -->
+    <color name="editTextBackground">@color/surface</color>
+    <color name="editTextStroke">#e6e6e6</color>
 </resources>

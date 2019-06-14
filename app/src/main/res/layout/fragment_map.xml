@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.MapFragment">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/linearBotonesMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            map:layout_constraintBottom_toTopOf="@id/include">
+            <Button
+                android:id="@+id/botonActualizar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                style="@style/NotificacionButton"
+                android:drawableTop="@drawable/map_update"
+                />
+        </LinearLayout>
+
+
+        <!-- Surface para ver la info de las motos-->
+        <include layout="@layout/surface_map" android:id="@+id/include" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
