@@ -2,12 +2,14 @@ package com.kidev.adrian.scooterappmantenimiento.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -21,11 +23,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kidev.adrian.scooterappmantenimiento.R;
+import com.kidev.adrian.scooterappmantenimiento.adapter.TaskAdapter;
 import com.kidev.adrian.scooterappmantenimiento.entities.Empleado;
+import com.kidev.adrian.scooterappmantenimiento.entities.Tarea;
 import com.kidev.adrian.scooterappmantenimiento.fragments.IncidenciaFragment;
 import com.kidev.adrian.scooterappmantenimiento.fragments.MapFragment;
 import com.kidev.adrian.scooterappmantenimiento.fragments.ParteTareaFragment;
@@ -38,6 +43,7 @@ import com.kidev.adrian.scooterappmantenimiento.util.ConectorTCP;
 import com.kidev.adrian.scooterappmantenimiento.util.Util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +62,7 @@ public class MenuActivity extends AppCompatActivity  implements NavigationView.O
     private ParteTareaFragment parteIncidenciaFragment;
 
     private String lastTag;
-    private String preCameraTag;
+    private String preParteTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +115,7 @@ public class MenuActivity extends AppCompatActivity  implements NavigationView.O
         // FragmentManager
         String tag = parteViewModel.getActualFragment();
         if (tag==null) {
-            mostrarFragment(R.id.contenedor, mapFragment, getApplicationContext().getString(R.string.fragment_incidencia), false);
+            mostrarFragment(R.id.contenedor, incidenciaFragment, getApplicationContext().getString(R.string.fragment_incidencia), false);
         } else {
             mostrarFragmentByTag(tag, false);
         }
@@ -121,12 +127,15 @@ public class MenuActivity extends AppCompatActivity  implements NavigationView.O
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(lastTag.equals(getApplicationContext().getString(R.string.fragment_parte))) {
-            mostrarFragmentByTag(getApplicationContext().getString(R.string.fragment_incidencia), false);
+            closeParteIncidencia();
         }else {
             preguntarDesconectar();
         }
     }
 
+    public void actualizarListaTareas() {
+        parteViewModel.getTareas(this, true);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -180,9 +189,15 @@ public class MenuActivity extends AppCompatActivity  implements NavigationView.O
         });
     }
 
-    public void openParteIncidencia (int codigoParte, Integer codigoScooter) {
+    public void openParteIncidencia (Tarea tarea) {
+        preParteTag = lastTag;
         mostrarFragment(R.id.contenedor, parteIncidenciaFragment, getApplicationContext().getString(R.string.fragment_parte), true);
-        parteIncidenciaFragment.configurarParte(codigoParte, codigoScooter);
+        parteIncidenciaFragment.configurarParte(tarea);
+    }
+
+    public void closeParteIncidencia () {
+        mostrarFragmentByTag(preParteTag, false);
+        preParteTag=null;
     }
 
     private void mostrarFragment (int resId, Fragment fragment, String tag, boolean addToBackStack) {

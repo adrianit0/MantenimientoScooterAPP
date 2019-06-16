@@ -15,45 +15,47 @@
             android:paddingBottom="32dp">
 
             <TextView
-                android:id="@+id/tituloIncidencia"
+                android:id="@+id/tareaTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/textoTitulo"
-                android:text="Motivo de la incidencia"/>
-
-            <LinearLayout
-                android:id="@+id/linearCodigo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/editTextCodigo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    style="@style/DefaultEditText"
-                    android:hint="Código"
-                    android:textAlignment="center"
-                    />
-                <Button
-                    android:id="@+id/botonCodigo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    style="@style/ButtonWithoutMarging"
-                    android:layout_marginRight="15dp"
-                    android:text="Escanear"
-                    />
-            </LinearLayout>
+                android:text="Informe de la incidencia"/>
 
             <TextView
-                android:id="@+id/textoCalle"
+                android:id="@+id/tareaTipo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="Llevar al taller"
+                style="@style/textoAviso"/>
+
+            <TextView
+                android:id="@+id/tareaMatricula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="12345ABC - Honda PCX 108"
+                style="@style/textoAviso"/>
+
+            <TextView
+                android:id="@+id/tareaCodigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="ID Scooter: 123456"
+                style="@style/textoAviso"/>
+
+            <TextView
+                android:id="@+id/tareaCalle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:text="Calle Sagasta, 11011, Cádiz"
-                style="@style/tituloAviso"
+                style="@style/textoAviso"
                 android:drawableStart="@drawable/notificacion_mapa"
                 android:drawablePadding="8dp"
                 android:drawableTint="@color/primaryColor"/>
@@ -61,10 +63,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cuentanos brevemente el problema con la scooter:"
+                android:text="observaciones:"
                 style="@style/textoFinAlquiler"
-                android:textAlignment="center"
-                android:paddingLeft="8dp"/>
+                android:textAlignment="textStart"
+                android:paddingLeft="32dp"
+                android:layout_marginTop="32dp"/>
             <EditText
                 android:id="@+id/textoDescripcion"
                 android:layout_width="match_parent"
@@ -72,19 +75,23 @@
                 style="@style/DefaultEditText"
                 android:gravity="start"
                 android:textSize="14sp"
-                android:lines="8"
-                android:maxLines="8"
-                android:hint="Un resumen del problema..."/>
+                android:lines="4"
+                android:maxLines="4"
+                android:hint="Observaciones..."
+                android:layout_marginBottom="16dp"/>
 
             <Button
-                android:id="@+id/botonEnviar"
+                android:id="@+id/botonEnviarSi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/DefaultButton"
-                android:text="Enviar incidencia"/>
+                style="@style/TareaButton"
+                android:text="Tarea terminada correctamente"/>
+            <Button
+                android:id="@+id/botonEnviarNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TareaButton"
+                android:text="Tarea no terminada correctamente"/>
         </LinearLayout>
     </ScrollView>
-
-
-
 </android.support.constraint.ConstraintLayout>

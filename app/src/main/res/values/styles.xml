@@ -41,7 +41,8 @@
 
     <style name="textoAviso" parent="tituloAviso">
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
         <item name="android:layout_marginRight">25dp</item>
@@ -122,6 +123,14 @@
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
         <item name="android:drawablePadding">15dp</item>
+    </style>
+
+    <!-- Botón para los partes de tarea -->
+    <style name="TareaButton" parent="DefaultButton">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
     </style>
 
     <!-- Botón para las notificaciones -->

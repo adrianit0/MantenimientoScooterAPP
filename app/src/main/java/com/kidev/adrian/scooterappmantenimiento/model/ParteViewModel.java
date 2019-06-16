@@ -26,6 +26,8 @@ public class ParteViewModel extends AndroidViewModel {
     private MutableLiveData<List<Tarea>> tareas;
     private MutableLiveData<LatLng> tuPosicion;
 
+    private Tarea tareaSeleccionada;
+
     private String actualFragment;
 
     private long timeRemain=0;
@@ -37,10 +39,12 @@ public class ParteViewModel extends AndroidViewModel {
 
 
     public LiveData<List<Tarea>> getTareas (Activity activity, boolean forzar) {
-        if (forzar || tareas==null) {
+        if (tareas==null) {
+            forzar=true;
             tareas = new MutableLiveData<>();
-            traerTareas(activity);
         }
+        if (forzar)
+            traerTareas(activity);
 
         return tareas;
     }
@@ -58,6 +62,14 @@ public class ParteViewModel extends AndroidViewModel {
             return null;
 
         return tuPosicion.getValue();
+    }
+
+    public Tarea getTareaSeleccionada() {
+        return tareaSeleccionada;
+    }
+
+    public void setTareaSeleccionada(Tarea tareaSeleccionada) {
+        this.tareaSeleccionada = tareaSeleccionada;
     }
 
     public void changePosition (LatLng posicion) {
@@ -106,12 +118,14 @@ public class ParteViewModel extends AndroidViewModel {
                     int estimacion = Integer.parseInt(contenido.get("estimacion[" + i + "]"));
                     int estadoTarea = Integer.parseInt(contenido.get("estadoTarea[" + i + "]"));
                     String tipoTarea = contenido.get("tipoTarea[" + i + "]");
+                    int tipoTareaId = Integer.parseInt(contenido.get("tipoTareaId[" + i + "]"));
 
                     String matricula = contenido.get("matricula[" + i + "]");
                     String noSerie = contenido.get("noSerie[" + i + "]");
                     float lat = Float.parseFloat(contenido.get("posicionLat[" + i + "]"));
                     float lon = Float.parseFloat(contenido.get("posicionLon[" + i + "]"));
                     String modelo = contenido.get("modelo[" + i + "]");
+                    String codigo =contenido.get("codigo[" + i + "]");
 
 
                     Tarea tarea = new Tarea();
@@ -121,10 +135,12 @@ public class ParteViewModel extends AndroidViewModel {
                     tarea.setEstimacion(estimacion);
                     tarea.setEstadotarea(estadoTarea);
                     tarea.setTipotarea(tipoTarea);
+                    tarea.setTipoTareaId(tipoTareaId);
                     tarea.setMatricula(matricula);
                     tarea.setNoSerie(noSerie);
                     tarea.setPosicion(new LatLng(lat, lon));
                     tarea.setModelo(modelo);
+                    tarea.setCodigo(codigo);
 
                     String direccion = AndroidUtil.getStreetName(activity, lat, lon);
                     tarea.setDireccion(direccion);
@@ -137,7 +153,7 @@ public class ParteViewModel extends AndroidViewModel {
 
             @Override
             public void error(Map<String, String> contenido, Util.CODIGO codigoError) {
-                Log.e("Error de conexión", "No se han cargado las tareas " + codigoError.toString());
+                Log.e("Error de conexión", "No se han cargado las tareas: " + contenido.get("error"));
                 AndroidUtil.crearToast(activity, "No se han podido cargar las tareas");
             }
         });

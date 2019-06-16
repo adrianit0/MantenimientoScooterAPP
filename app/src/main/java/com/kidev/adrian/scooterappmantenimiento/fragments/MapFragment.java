@@ -34,18 +34,12 @@ import com.google.android.gms.tasks.Task;
 import com.kidev.adrian.scooterappmantenimiento.R;
 import com.kidev.adrian.scooterappmantenimiento.activities.MenuActivity;
 import com.kidev.adrian.scooterappmantenimiento.entities.Tarea;
-import com.kidev.adrian.scooterappmantenimiento.interfaces.CallbackRespuesta;
 import com.kidev.adrian.scooterappmantenimiento.interfaces.IOnRequestPermission;
 import com.kidev.adrian.scooterappmantenimiento.model.ParteViewModel;
 import com.kidev.adrian.scooterappmantenimiento.util.AndroidUtil;
-import com.kidev.adrian.scooterappmantenimiento.util.ConectorTCP;
-import com.kidev.adrian.scooterappmantenimiento.util.Util;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -66,6 +60,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private LatLng myLastPosition = null;
 
     private Button botonActualizar;
+    private Button botonSeleccionar;
 
     private List<Marker> markers;
 
@@ -94,6 +89,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         surface.setVisibility(View.GONE);
 
         Button botonCerrarSurface = surface.findViewById(R.id.botonCerrarSurface);
+        Button botonIrAlParte = surface.findViewById(R.id.botonIrAlParte);
+
         botonCerrarSurface.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,6 +100,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             }
         );
 
+        botonIrAlParte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tarea tarea = parteViewModel.getTareaSeleccionada();
+                if (tarea!=null) {
+                    menuActivity.openParteIncidencia(tarea);
+                }
+            }
+        });
+
 
         botonActualizar = view.findViewById(R.id.botonActualizar);
 
@@ -110,7 +117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         botonActualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                actualizarTareas(true);
+                menuActivity.actualizarListaTareas();
             }
         });
 
@@ -156,7 +163,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         menuActivity.pedirPermiso(Manifest.permission.ACCESS_FINE_LOCATION, position_permission_code, new IOnRequestPermission() {
             @Override
             public void onPermissionAccepted(String permiso) {
-                realizarConexion();
+                permisoLocalizacion=true;
+
+                parteViewModel.getTareas(getActivity(), false).observe(getActivity(), new Observer<List<Tarea>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Tarea> tareas) {
+                        updateLocationUI();
+                        getDeviceLocation();
+
+                        surface.setVisibility(View.GONE);
+
+                        // Eliminamos los anteriores markers si los hubiera
+                        for (Marker m : markers)
+                            m.remove();
+                        markers.clear();
+
+                        LatLng pos = new LatLng(0,0);
+
+                        int i = 0;
+                        for (Tarea tarea : tareas) {
+                            MarkerOptions markerOptions = new MarkerOptions().position(tarea.getPosicion());
+                            Marker marker = mMap.addMarker(markerOptions);
+                            marker.setTag(tarea);
+
+                            markers.add(marker);
+
+                            if (0==i++)
+                                pos = tarea.getPosicion();
+                        }
+
+                        // Al actualizar cogemos siempre nuestra posición
+                        if(parteViewModel.getLastPosition()!=null)
+                            pos = parteViewModel.getLastPosition();
+
+
+                        mMap.moveCamera((CameraUpdateFactory.newLatLng(pos)));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 14), 1500, null);
+                    }
+                });
             }
 
             @Override
@@ -225,12 +269,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
-    private void realizarConexion () {
-        permisoLocalizacion=true;
-
-        actualizarTareas(false);
-    }
-
     @Override
     public void onResume() {
         mMapView.onResume();
@@ -287,47 +325,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
 
         return true;
-    }
-
-    private void actualizarTareas (boolean forzar) {
-        updateLocationUI();
-        getDeviceLocation();
-
-        double latitude = 1;
-        double longitude = 1;
-
-        // Eliminamos los anteriores markers si los hubiera
-        for (Marker m : markers)
-            m.remove();
-        markers.clear();
-
-        parteViewModel.getTareas(getActivity(), forzar).observe(getActivity(), new Observer<List<Tarea>>() {
-            @Override
-            public void onChanged(@Nullable List<Tarea> tareas) {
-                LatLng pos = new LatLng(0,0);
-
-
-                int i = 0;
-                for (Tarea tarea : tareas) {
-                    MarkerOptions markerOptions = new MarkerOptions().position(tarea.getPosicion());
-                    Marker marker = mMap.addMarker(markerOptions);
-                    marker.setTag(tarea);
-
-                    markers.add(marker);
-
-                    if (0==i++)
-                        pos = tarea.getPosicion();
-                }
-
-                // Al actualizar cogemos siempre nuestra posición
-                if(parteViewModel.getLastPosition()!=null)
-                    pos = parteViewModel.getLastPosition();
-
-
-                mMap.moveCamera((CameraUpdateFactory.newLatLng(pos)));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 14), 1500, null);
-            }
-        });
     }
 
     private void cambiarDistanciaScooter (Tarea tarea, TextView distanciaText) {

@@ -13,6 +13,7 @@ public class Tarea {
 
     private int estadotarea;
     private String tipotarea;
+    private int tipoTareaId;
 
     // Info de la scooter
     private LatLng posicion;
@@ -20,6 +21,7 @@ public class Tarea {
     private String modelo;
     private String matricula;
     private String direccion;
+    private String codigo;
 
     public Tarea() {
     }
@@ -111,5 +113,21 @@ public class Tarea {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public int getTipoTareaId() {
+        return tipoTareaId;
+    }
+
+    public void setTipoTareaId(int tipoTareaId) {
+        this.tipoTareaId = tipoTareaId;
     }
 }
